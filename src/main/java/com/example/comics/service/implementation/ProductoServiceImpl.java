@@ -60,6 +60,17 @@ public class ProductoServiceImpl implements ProductoService{
         return productoMapper.productoToResponse(productoRepository.getReferenceById(id));
     }
 
+    @Override
+    public void borrarProducto(Long id) {
+        Producto producto = productoRepository.getReferenceById(id);
+        // Eliminacion correcta de imagenes.
+        List<Image> imagenes = producto.getImages();
+        for (Image imagen : imagenes) {
+            producto.removerImagen(imagen);
+        }
+        productoRepository.delete(producto);
+    }
+
     // ================================
     //      Metodos auxiliares
     // ================================

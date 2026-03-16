@@ -38,7 +38,7 @@ public class ProductoController {
             @RequestPart @Valid ProductoRequest request,
             @RequestPart("files") List<MultipartFile> imagenes
     ) {
-        log.info("Ingresando al proyecto de creacion");
+        log.info("Realizando el registro correspondiente del producto.");
         ProductoResponse response = productoService.crearProducto(request, imagenes);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.success("Producto registrado de manera exitosa.",response));

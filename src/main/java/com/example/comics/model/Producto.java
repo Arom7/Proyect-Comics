@@ -2,6 +2,8 @@ package com.example.comics.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -15,7 +17,9 @@ import java.util.Optional;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
+// Anotaciones Hibernate
+@SQLDelete(sql = "UPDATE my_entity SET deleted_at = now() WHERE id = ?")
+@Where(clause = "deletedAt is null")
 public class Producto {
 
     @Id
@@ -62,6 +66,9 @@ public class Producto {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
 
     // ==========================================
     // MÉTODOS DE VALIDACIÓN
