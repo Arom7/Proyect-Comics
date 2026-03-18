@@ -34,3 +34,6 @@ build/
 
 ### Application.properties ###
 application.properties
+
+## Evitar seguimiento de las imagenes para los productos
+uploads/productos/
