@@ -1,6 +1,5 @@
 package com.example.comics.dtos.response;
 
-import com.example.comics.model.Image;
 import com.example.comics.model.TipoProducto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

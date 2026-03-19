@@ -1,7 +1,6 @@
 package com.example.comics.service;
 
 import java.util.List;
-import java.util.function.LongFunction;
 
 import com.example.comics.dtos.response.ProductoResponseAdmin;
 import com.example.comics.dtos.response.ProductoResponseDetails;

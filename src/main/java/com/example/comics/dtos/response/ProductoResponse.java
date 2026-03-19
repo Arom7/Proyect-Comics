@@ -1,8 +1,5 @@
 package com.example.comics.dtos.response;
 
-import java.time.LocalDate;
-import java.util.List;
-
 import com.example.comics.model.TipoProducto;
 
 import lombok.AllArgsConstructor;
