@@ -1,6 +1,7 @@
 package com.example.comics.mapper;
 
 import com.example.comics.dtos.response.ProductoResponseAdmin;
+import com.example.comics.dtos.response.ProductoResponseDetails;
 import com.example.comics.model.Image;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
@@ -32,6 +33,9 @@ public interface ProductoMapper {
 
     // Mapping de producto a response (Admin)
     ProductoResponseAdmin productoToAdminResponse(Producto producto);
+
+    // Mapping de producto en response (getId -> respuesta con mayor detalle)
+    ProductoResponseDetails productoToDetailsResponse(Producto producto);
 
     // Mapping de request a producto
     @Mapping(target = "tipo" , ignore = true)

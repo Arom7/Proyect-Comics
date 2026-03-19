@@ -3,6 +3,8 @@ package com.example.comics.service.implementation;
 import java.util.Arrays;
 import java.util.List;
 
+import com.example.comics.dtos.response.ProductoResponseAdmin;
+import com.example.comics.dtos.response.ProductoResponseDetails;
 import com.example.comics.model.Image;
 import com.example.comics.model.TipoProducto;
 import com.example.comics.service.ImagenService;
@@ -28,8 +30,18 @@ public class ProductoServiceImpl implements ProductoService{
     private final ImagenService imagenService;
 
     @Override
-    public List<ProductoResponse> listarProductos() {
+    public List<ProductoResponse> obtenerListaProductos() {
         return productoRepository.findAll().stream().map(productoMapper::productoToResponse).toList();
+    }
+
+    @Override
+    public List<ProductoResponseAdmin> obtenerProductosAdmin() {
+        return productoRepository.findAll().stream().map(productoMapper::productoToAdminResponse).toList();
+    }
+
+    @Override
+    public ProductoResponseDetails obtenerPorId(Long id) {
+        return productoMapper.productoToDetailsResponse(productoRepository.getReferenceById(id));
     }
 
     @Override
@@ -53,11 +65,6 @@ public class ProductoServiceImpl implements ProductoService{
         }
 
         return productoMapper.productoToResponse(producto);
-    }
-
-    @Override
-    public ProductoResponse obtenerPorId(Long id) {
-        return productoMapper.productoToResponse(productoRepository.getReferenceById(id));
     }
 
     @Override

@@ -19,7 +19,7 @@ import java.util.Optional;
 @AllArgsConstructor
 // Anotaciones Hibernate
 @SQLDelete(sql = "UPDATE my_entity SET deleted_at = now() WHERE id = ?")
-@Where(clause = "deletedAt is null")
+@Where(clause = "deleted_at is null")
 public class Producto {
 
     @Id

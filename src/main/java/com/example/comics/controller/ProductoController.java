@@ -3,7 +3,8 @@ package com.example.comics.controller;
 import java.util.List;
 
 import com.example.comics.dtos.response.ApiResponse;
-import com.example.comics.service.ImagenService;
+import com.example.comics.dtos.response.ProductoResponseAdmin;
+import com.example.comics.dtos.response.ProductoResponseDetails;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -25,11 +26,22 @@ import org.springframework.web.multipart.MultipartFile;
 public class ProductoController {
     
     private final ProductoService productoService;
-    private final ImagenService imagenService;
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<ProductoResponse>>> listarProductos() {
-        List<ProductoResponse> response = productoService.listarProductos();
+    public ResponseEntity<ApiResponse<List<ProductoResponse>>> obtenerListaProductos() {
+        List<ProductoResponse> response = productoService.obtenerListaProductos();
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
+    @GetMapping("/admin")
+    public ResponseEntity<ApiResponse<List<ProductoResponseAdmin>>> obtenerProductoAdmin(){
+        List<ProductoResponseAdmin> response = productoService.obtenerProductosAdmin();
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<ProductoResponseDetails>> obtenerProducto(@PathVariable Long id) {
+        ProductoResponseDetails response = productoService.obtenerPorId(id);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
@@ -42,11 +54,5 @@ public class ProductoController {
         ProductoResponse response = productoService.crearProducto(request, imagenes);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.success("Producto registrado de manera exitosa.",response));
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<ProductoResponse>> obtenerProducto(@PathVariable Long id) {
-        ProductoResponse response = productoService.obtenerPorId(id);
-        return ResponseEntity.ok(ApiResponse.success(response));
     }
 }
