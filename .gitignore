@@ -37,3 +37,10 @@ application.properties
 
 ## Evitar seguimiento de las imagenes para los productos
 uploads/productos/
+
+## Evitar seguimiento de los archivos docker
+Dockerfile
+docker-compose.yml
+
+## Ignorar el .env
+.env
