@@ -19,7 +19,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/productos")
+@RequestMapping("/products")
 @AllArgsConstructor
 @Slf4j
 
@@ -28,31 +28,45 @@ public class ProductoController {
     private final ProductoService productoService;
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<ProductoResponse>>> obtenerListaProductos() {
-        List<ProductoResponse> response = productoService.obtenerListaProductos();
+    public ResponseEntity<ApiResponse<List<ProductoResponse>>> getAllProducts() {
+        List<ProductoResponse> response = productoService.getAllProducts();
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
     @GetMapping("/admin")
-    public ResponseEntity<ApiResponse<List<ProductoResponseAdmin>>> obtenerProductoAdmin(){
-        List<ProductoResponseAdmin> response = productoService.obtenerProductosAdmin();
+    public ResponseEntity<ApiResponse<List<ProductoResponseAdmin>>> getAllProductsByAdmin(){
+        List<ProductoResponseAdmin> response = productoService.getAllProductsByAdmin();
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<ProductoResponseDetails>> obtenerProducto(@PathVariable Long id) {
-        ProductoResponseDetails response = productoService.obtenerPorId(id);
+    public ResponseEntity<ApiResponse<ProductoResponseDetails>> getProductById(@PathVariable Long id) {
+        ProductoResponseDetails response = productoService.getProductById(id);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
     @PostMapping
     public ResponseEntity<ApiResponse<ProductoResponse>> crearProducto(
-            @RequestPart @Valid ProductoRequest request,
-            @RequestPart("files") List<MultipartFile> imagenes
+            @RequestPart @Valid ProductoRequest product,
+            @RequestPart("files") List<MultipartFile> images
     ) {
         log.info("Realizando el registro correspondiente del producto.");
-        ProductoResponse response = productoService.crearProducto(request, imagenes);
+        ProductoResponse response = productoService.crearProducto(product, images);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.success("Producto registrado de manera exitosa.",response));
+    }
+
+    @PostMapping("create")
+    public ResponseEntity<ApiResponse<ProductoResponse>> store(
+            @RequestBody @Valid ProductoRequest product
+    ){
+        ProductoResponse response = productoService.storeProduct(product);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ApiResponse.success(response));
+    }
+
+    @GetMapping("/testing/two")
+    public ResponseEntity<ApiResponse<String>> realizarTesting() {
+        return ResponseEntity.ok(ApiResponse.success("Prueba de testing correcta."));
     }
 }

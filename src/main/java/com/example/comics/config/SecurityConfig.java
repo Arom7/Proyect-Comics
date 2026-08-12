@@ -11,16 +11,11 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
+        return http
                 // 1. Deshabilitar CSRF (Requisito para que funcionen POST/PUT en APIs)
                 .csrf(csrf -> csrf.disable())
-
-                // 2. Autorizar las rutas
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/productos/**").permitAll() // Permite todo lo que empiece con /productos
-                        .anyRequest().authenticated()                // El resto sí pide login
-                );
-
-        return http.build();
+                // 2. Autorizar a cualquiera de las rutas sin necesidad de login
+                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+                .build();
     }
 }

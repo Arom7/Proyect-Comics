@@ -13,16 +13,19 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public interface ProductoService {
     // Lista de productos para cliente
-    List<ProductoResponse> obtenerListaProductos();
+    List<ProductoResponse> getAllProducts();
 
     // Lista de productos para administrador
-    List<ProductoResponseAdmin> obtenerProductosAdmin();
+    List<ProductoResponseAdmin> getAllProductsByAdmin();
+
+    // Busqueda por Id
+    ProductoResponseDetails getProductById(Long id);
 
     // Registrar un nuevo producto
     ProductoResponse crearProducto(ProductoRequest productoRequest, List<MultipartFile> imagenes);
 
-    // Busqueda por Id
-    ProductoResponseDetails obtenerPorId(Long id);
+    // Registrar un nuevo producto sin imagenes
+    ProductoResponse storeProduct(ProductoRequest productoRequest);
 
     //ProductoResponse obtenerPorNombre(String nombre);
 

@@ -30,17 +30,17 @@ public class ProductoServiceImpl implements ProductoService{
     private final ImagenService imagenService;
 
     @Override
-    public List<ProductoResponse> obtenerListaProductos() {
+    public List<ProductoResponse> getAllProducts() {
         return productoRepository.findAll().stream().map(productoMapper::productoToResponse).toList();
     }
 
     @Override
-    public List<ProductoResponseAdmin> obtenerProductosAdmin() {
+    public List<ProductoResponseAdmin> getAllProductsByAdmin() {
         return productoRepository.findAll().stream().map(productoMapper::productoToAdminResponse).toList();
     }
 
     @Override
-    public ProductoResponseDetails obtenerPorId(Long id) {
+    public ProductoResponseDetails getProductById(Long id) {
         return productoMapper.productoToDetailsResponse(productoRepository.getReferenceById(id));
     }
 
@@ -65,6 +65,13 @@ public class ProductoServiceImpl implements ProductoService{
         }
 
         return productoMapper.productoToResponse(producto);
+    }
+
+    @Override
+    public ProductoResponse storeProduct(ProductoRequest productoRequest){
+        Producto producto = productoMapper.requestToProducto(productoRequest);
+        validarYEstablecerTipo(producto , productoRequest.getTipo());
+        return productoMapper.productoToResponse(productoRepository.save(producto));
     }
 
     @Override
