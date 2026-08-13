@@ -34,9 +34,6 @@ public class Producto {
 
     @Column(name = "precio", nullable = false, precision = 10, scale = 2)
     private BigDecimal precio;
-
-    @Column(name = "editorial", nullable = false)
-    private String editorial;
     
     @Column(name = "autor")
     private String autor;
@@ -51,6 +48,9 @@ public class Producto {
     @Column(nullable = false)
     private Boolean disponible = true;
 
+    @Column(nullable = false)
+    private String numeroEdicion;
+
     // --- Relacion con Imagen ---
     @OneToMany(
             mappedBy = "producto",
@@ -60,6 +60,12 @@ public class Producto {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Image> images = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "editorial_id", nullable = false)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Editorial editorial;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

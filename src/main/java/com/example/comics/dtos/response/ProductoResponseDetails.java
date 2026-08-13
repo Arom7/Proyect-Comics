@@ -16,7 +16,7 @@ public class ProductoResponseDetails {
     private String titulo;
     private String descripcion;
     private double precio;
-    private String editorial;
+    //private String editorial;
     private String autor;
     private TipoProducto tipo;
     private LocalDate fechaPublicacion;

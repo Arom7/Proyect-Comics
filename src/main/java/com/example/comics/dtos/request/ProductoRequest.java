@@ -29,7 +29,10 @@ public class ProductoRequest {
     @Min(value = 0 , message = "El precio debe ser mayor o igual a 0")
     private double precio;
 
-    private String editorial;
+    private Long editorial;
+
+    private String numeroEdicion;
+
     private String autor;
     
     @NotNull(message = "El tipo de producto es obligatorio")

@@ -40,6 +40,7 @@ public interface ProductoMapper {
     // Mapping de request a producto
     @Mapping(target = "tipo" , ignore = true)
     @Mapping(target = "images" , ignore = true)
+    @Mapping(target = "editorial", ignore = true)
     @Mapping(target = "createdAt" , expression = "java(java.time.LocalDateTime.now())")
     Producto requestToProducto(ProductoRequest productoRequest);
 }

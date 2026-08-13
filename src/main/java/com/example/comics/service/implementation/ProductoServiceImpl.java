@@ -2,12 +2,16 @@ package com.example.comics.service.implementation;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import com.example.comics.dtos.response.ProductoResponseAdmin;
 import com.example.comics.dtos.response.ProductoResponseDetails;
+import com.example.comics.model.Editorial;
 import com.example.comics.model.Image;
 import com.example.comics.model.TipoProducto;
+import com.example.comics.repository.EditorialRepository;
 import com.example.comics.service.ImagenService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ProductoServiceImpl implements ProductoService{
     
     private final ProductoRepository productoRepository;
+    private final EditorialRepository editorialRepository;
     private final ProductoMapper productoMapper;
     private final ImagenService imagenService;
 
@@ -69,7 +74,10 @@ public class ProductoServiceImpl implements ProductoService{
 
     @Override
     public ProductoResponse storeProduct(ProductoRequest productoRequest){
+        Editorial editorial = editorialRepository.findById(productoRequest.getEditorial())
+                .orElseThrow(() -> new EntityNotFoundException("Editorial no encontrada."));
         Producto producto = productoMapper.requestToProducto(productoRequest);
+        producto.setEditorial(editorial);
         validarYEstablecerTipo(producto , productoRequest.getTipo());
         return productoMapper.productoToResponse(productoRepository.save(producto));
     }
