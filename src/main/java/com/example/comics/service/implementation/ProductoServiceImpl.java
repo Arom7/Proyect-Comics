@@ -51,10 +51,14 @@ public class ProductoServiceImpl implements ProductoService{
 
     @Override
     @Transactional
-    public ProductoResponse crearProducto(ProductoRequest productoRequest, List<MultipartFile> imagenes) {
+    public ProductoResponse storeProduct(ProductoRequest productoRequest, List<MultipartFile> imagenes) {
+
+        Editorial editorial = editorialRepository.findById(productoRequest.getEditorial())
+                .orElseThrow(() -> new EntityNotFoundException("Editorial no encontrada."));
         Producto producto = productoMapper.requestToProducto(productoRequest);
 
         validarYEstablecerTipo(producto , productoRequest.getTipo());
+        producto.setEditorial(editorial);
 
         producto = productoRepository.save(producto);
 
@@ -70,16 +74,6 @@ public class ProductoServiceImpl implements ProductoService{
         }
 
         return productoMapper.productoToResponse(producto);
-    }
-
-    @Override
-    public ProductoResponse storeProduct(ProductoRequest productoRequest){
-        Editorial editorial = editorialRepository.findById(productoRequest.getEditorial())
-                .orElseThrow(() -> new EntityNotFoundException("Editorial no encontrada."));
-        Producto producto = productoMapper.requestToProducto(productoRequest);
-        producto.setEditorial(editorial);
-        validarYEstablecerTipo(producto , productoRequest.getTipo());
-        return productoMapper.productoToResponse(productoRepository.save(producto));
     }
 
     @Override

@@ -13,7 +13,8 @@ public class ProductoResponse {
     private Long id;
     private String titulo;
     private double precio;
-    //private String editorial;
+    private String numeroEdicion;
+    private EditorialResponse editorial;
     private TipoProducto tipo;
     private String mainImage;
 }

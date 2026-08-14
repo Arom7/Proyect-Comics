@@ -29,8 +29,10 @@ public class ProductoRequest {
     @Min(value = 0 , message = "El precio debe ser mayor o igual a 0")
     private double precio;
 
+    @NotNull(message = "La editorial es requerida y seleccionada de las almacenadas.")
     private Long editorial;
 
+    @NotNull(message = "El numero de edicion es obligatorio")
     private String numeroEdicion;
 
     private String autor;

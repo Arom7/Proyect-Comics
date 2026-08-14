@@ -51,18 +51,9 @@ public class ProductoController {
             @RequestPart("files") List<MultipartFile> images
     ) {
         log.info("Realizando el registro correspondiente del producto.");
-        ProductoResponse response = productoService.crearProducto(product, images);
+        ProductoResponse response = productoService.storeProduct(product, images);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.success("Producto registrado de manera exitosa.",response));
-    }
-
-    @PostMapping("create")
-    public ResponseEntity<ApiResponse<ProductoResponse>> store(
-            @RequestBody @Valid ProductoRequest product
-    ){
-        ProductoResponse response = productoService.storeProduct(product);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ApiResponse.success(response));
     }
 
     @GetMapping("/testing/two")

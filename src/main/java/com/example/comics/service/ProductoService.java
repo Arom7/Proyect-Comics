@@ -21,11 +21,8 @@ public interface ProductoService {
     // Busqueda por Id
     ProductoResponseDetails getProductById(Long id);
 
-    // Registrar un nuevo producto
-    ProductoResponse crearProducto(ProductoRequest productoRequest, List<MultipartFile> imagenes);
-
-    // Registrar un nuevo producto sin imagenes
-    ProductoResponse storeProduct(ProductoRequest productoRequest);
+    // Registrar un nuevo producto con imagenes
+    ProductoResponse storeProduct(ProductoRequest productoRequest, List<MultipartFile> imagenes);
 
     //ProductoResponse obtenerPorNombre(String nombre);
 
