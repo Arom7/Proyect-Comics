@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 
-@SQLDelete(sql = "UPDATE productos SET deleted_at = now() WHERE id = ?")
+@SQLDelete(sql = "UPDATE editorial SET deleted_at = now() WHERE id = ?")
 @Where(clause = "deleted_at is null")
 public class Editorial {
     @Id
