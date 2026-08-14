@@ -61,6 +61,17 @@ public class Producto {
     @EqualsAndHashCode.Exclude
     private List<Image> images = new ArrayList<>();
 
+    // --- Relacion con inventario
+    @OneToMany(
+            mappedBy = "producto",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private List<Inventory> inventories = new ArrayList<>();
+
+    // --- Relacion con editorial (muchos a uno)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "editorial_id", nullable = false)
     @ToString.Exclude
