@@ -1,15 +1,14 @@
 package com.example.comics.service.implementation;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import com.example.comics.dtos.response.ProductoResponseAdmin;
 import com.example.comics.dtos.response.ProductoResponseDetails;
-import com.example.comics.model.Editorial;
-import com.example.comics.model.Image;
-import com.example.comics.model.TipoProducto;
+import com.example.comics.model.*;
 import com.example.comics.repository.EditorialRepository;
+import com.example.comics.repository.InventoryRepository;
 import com.example.comics.service.ImagenService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Service;
 import com.example.comics.dtos.request.ProductoRequest;
 import com.example.comics.dtos.response.ProductoResponse;
 import com.example.comics.mapper.ProductoMapper;
-import com.example.comics.model.Producto;
 import com.example.comics.repository.ProductoRepository;
 import com.example.comics.service.ProductoService;
 
@@ -31,6 +29,7 @@ public class ProductoServiceImpl implements ProductoService{
     
     private final ProductoRepository productoRepository;
     private final EditorialRepository editorialRepository;
+    private final InventoryRepository inventoryRepository;
     private final ProductoMapper productoMapper;
     private final ImagenService imagenService;
 
@@ -53,25 +52,33 @@ public class ProductoServiceImpl implements ProductoService{
     @Transactional
     public ProductoResponse storeProduct(ProductoRequest productoRequest, List<MultipartFile> imagenes) {
 
+        // Busqueda de editorial y control de errores
         Editorial editorial = editorialRepository.findById(productoRequest.getEditorial())
                 .orElseThrow(() -> new EntityNotFoundException("Editorial no encontrada."));
+        // Mapeo de producto y preparacion de estructura para el registro
         Producto producto = productoMapper.requestToProducto(productoRequest);
-
         validarYEstablecerTipo(producto , productoRequest.getTipo());
         producto.setEditorial(editorial);
-
+        // Registro del producto
         producto = productoRepository.save(producto);
-
+        // Aplicacion de registro de imagenes
         if (imagenes != null && !imagenes.isEmpty()) {
             List<Image> imagenesAlmacenadas = imagenService.subirImagenes(
                     producto.getId(),
                     imagenes
             );
-
             if (imagenesAlmacenadas != null && !imagenesAlmacenadas.isEmpty()) {
                 imagenesAlmacenadas.forEach(producto::agregarImagen);
             }
         }
+        //Registro de un inventario nuevo para el producto
+        Inventory newInventory = Inventory.builder()
+                .producto(producto)
+                .stockActual(0)
+                .stockMinimo(10)
+                .createdAt(LocalDateTime.now())
+                .build();
+        inventoryRepository.save(newInventory);
 
         return productoMapper.productoToResponse(producto);
     }

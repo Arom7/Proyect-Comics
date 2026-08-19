@@ -39,6 +39,7 @@ public class InventoryServiceImpl implements InventoryService {
                 .cantidad(request.getCantidad())
                 .stockAnterior(stock_anterior)
                 .stockNuevo(amount)
+                .inventory(inventory)
                 .motivo("Ingreso de mercaderia")
                 .createdAt(LocalDateTime.now())
                 .build();
